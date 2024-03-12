@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -eu
+set -o pipefail
 
 source_wiki_origin=$1
 shift
