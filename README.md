@@ -5,7 +5,7 @@ A Docker image providing a command that transfers entities from a source to a ta
 ## Usage
 
 ```
-docker run --rm ghcr.iowbstack/transferbot \
+docker run --rm ghcr.io/wbstack/transferbot \
 	https://source.wikibase.cloud https://target.wikibase.cloud Q1 P1 Q2
 ```
 
