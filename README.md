@@ -5,7 +5,8 @@ A Docker image providing a command that transfers entities from a source to a ta
 ## Usage
 
 ```
-docker run --rm wbstack/transferbot https://source.wikibase.cloud https://target.wikibase.cloud Q1 P1 Q2
+docker run --rm ghcr.iowbstack/transferbot \
+	https://source.wikibase.cloud https://target.wikibase.cloud Q1 P1 Q2
 ```
 
 Positional arguments to be passed are:
@@ -17,7 +18,7 @@ Positional arguments to be passed are:
 
 ## Providing credentials
 
-Credentials for the __target wiki__ are provided using the following environment variables:
+OAuth 1.0 credentials for the __target wiki__ are provided using the following environment variables:
 
 ### `TARGET_WIKI_OAUTH_CONSUMER_TOKEN` (required)
 
