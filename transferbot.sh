@@ -14,10 +14,10 @@ cat <<CREDS
   "credentials": {
     "${target_wiki_origin}": {
       "oauth": {
-        "consumer_key": "${TARGET_WIKI_OAUTH_CONSUMER_KEY}",
+        "consumer_key": "${TARGET_WIKI_OAUTH_CONSUMER_TOKEN}",
         "consumer_secret": "${TARGET_WIKI_OAUTH_CONSUMER_SECRET}",
-        "token": "${TARGET_WIKI_OAUTH_TOKEN}",
-        "token_secret": "${TARGET_WIKI_OAUTH_TOKEN_SECRET}"
+        "token": "${TARGET_WIKI_OAUTH_ACCESS_TOKEN}",
+        "token_secret": "${TARGET_WIKI_OAUTH_ACCESS_SECRET}"
       }
     }
   }
