@@ -25,6 +25,6 @@ cat <<CREDS
 CREDS
 } > $(wb config path)
 
-wb data $@ -i "$source_wiki_origin" |\
-  jq -c '{type,labels,descriptions,aliases,datatype}' |\
-  wb create-entity --batch -i "$target_wiki_origin"
+wb data $@ --instance "$source_wiki_origin" |\
+  jq --compact-output '{type,labels,descriptions,aliases,datatype}' |\
+  wb create-entity --batch --instance "$target_wiki_origin"
