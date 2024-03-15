@@ -3,9 +3,9 @@
 set -eu
 set -o pipefail
 
-source_wiki_origin=$1
+source_wiki_origin="$1"
 shift
-target_wiki_origin=$1
+target_wiki_origin="$1"
 shift
 
 {
