@@ -6,6 +6,7 @@ A Docker image providing a command that transfers entities from a source to a ta
 
 ```
 docker run --rm ghcr.io/wbstack/transferbot \
+	-e CALLBACK_ON_SUCCESS="echo 'this worked'" -e CALLBACK_ON_FAILURE="echo 'this failed'" \
 	https://source.wikibase.cloud https://target.wikibase.cloud Q1 P1 Q2
 ```
 
@@ -35,6 +36,18 @@ The OAuth access token used for authenticating against the target wiki.
 ### `TARGET_WIKI_OAUTH_ACCESS_SECRET` (required)
 
 The OAuth access secret used for authenticating against the target wiki.
+
+## Running commands after the script has finished
+
+It's possible to provide commands that should be run when the script has finished.
+
+### `CALLBACK_ON_SUCCESS` (optional)
+
+If a value is set for this key, its content will be executed in case the script exits 0.
+
+### `CALLBACK_ON_FAILURE` (optional)
+
+If a value is set for this key, its content will be executed in case the script exits non-zero.
 
 ---
 
