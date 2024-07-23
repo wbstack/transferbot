@@ -36,11 +36,6 @@ cat <<CREDS
 CREDS
 } > $(wb config path)
 
-source_languages=$(mktemp)
-curl -sS "$source_wiki_origin/w/api.php?action=query&meta=wbcontentlanguages&format=json" > $source_languages
-target_languages=$(mktemp)
-curl -sS "$target_wiki_origin/w/api.php?action=query&meta=wbcontentlanguages&format=json" > $target_languages
-
 wb data $@ --instance "$source_wiki_origin" |\
-  adjust_data -s "$source_wiki_origin" -t "$target_wiki_origin" -p type -p labels -p descriptions -p aliases -p datatype |\
+  mangle_data -t "$target_wiki_origin" -p type -p labels -p descriptions -p aliases -p datatype |\
   wb create-entity --batch --instance "$target_wiki_origin"
