@@ -20,7 +20,7 @@ def process_line(line, pick=[], select_languages=set()):
         if key not in pick:
             continue
 
-        if type(value) != "dict":
+        if not isinstance(value, dict):
             out[key] = value
             continue
 
@@ -28,6 +28,7 @@ def process_line(line, pick=[], select_languages=set()):
         for lang, value in data[key].items():
             if lang in select_languages:
                 out[key][lang] = value
+
     return out
 
 
