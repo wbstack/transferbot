@@ -37,5 +37,5 @@ CREDS
 } > $(wb config path)
 
 wb data $@ --instance "$source_wiki_origin" |\
-  jq --compact-output '{type,labels,descriptions,aliases,datatype}' |\
+  mangle_data -t "$target_wiki_origin" -p type -p labels -p descriptions -p aliases -p datatype |\
   wb create-entity --batch --instance "$target_wiki_origin"
