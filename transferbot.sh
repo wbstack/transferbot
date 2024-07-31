@@ -36,6 +36,24 @@ cat <<CREDS
 CREDS
 } > $(wb config path)
 
-wb data $@ --instance "$source_wiki_origin" |\
+read_entities() {
+  # entities are passed as either
+  # "Q42" which fetches the latest revision
+  # "Q42@123" which fetches revision 123
+  for entity in $@; do
+    case $entity in
+      *@*)
+        revision=$(echo $entity | cut -d "@" -f 2)
+        id=$(echo $entity | cut -d "@" -f 1)
+        wb data "$id" --revision "$revision" --instance "$source_wiki_origin"
+      ;;
+      *)
+        wb data "$entity" --instance "$source_wiki_origin"
+      ;;
+    esac
+  done
+}
+
+read_entities $@ |\
   mangle_data -t "$target_wiki_origin" -p type -p labels -p descriptions -p aliases -p datatype |\
   wb create-entity --batch --instance "$target_wiki_origin"

@@ -15,6 +15,11 @@ Positional arguments to be passed are:
 2. The origin of the target wiki
 3. (variadic) A whitespace separated list of entities to be transferred
 
+### Specifying entity ids
+
+An entity ID can be given in the format `Q1`, which looks up the latest revision.
+If you append a revision ID using `@` like `Q1@123`, the given revision ID will be used for this entity.
+
 ---
 
 ## Providing credentials
