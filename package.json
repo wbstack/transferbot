@@ -12,6 +12,7 @@
     "wikibase-edit": "^7.0.4",
     "wikibase-sdk": "^10.0.2"
   },
+  "type": "module",
   "bin": {
     "transferbot": "./bin/cmd.js"
   }
