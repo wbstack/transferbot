@@ -5,16 +5,28 @@ import { pickLanguages, pickKeys } from './../lib/util.js'
 import { execCmd } from './../lib/exec.js'
 
 ;(async () => {
-  const [source, target, ...entities] = process.argv.slice(2)
+  const args = process.argv.slice(2)
+  if (args.length < 3) {
+    throw new Error(
+      `Expected at least 3 positional arguments to be given, but got ${args.length}, cannot continue.`
+    )
+  }
+  const [source, target, ...entities] = args
+
+  const oauth = {
+    consumer_key: process.env.TARGET_WIKI_OAUTH_CONSUMER_TOKEN,
+    consumer_secret: process.env.TARGET_WIKI_OAUTH_CONSUMER_SECRET,
+    token: process.env.TARGET_WIKI_OAUTH_ACCESS_TOKEN,
+    token_secret: process.env.TARGET_WIKI_OAUTH_ACCESS_SECRET
+  }
+  if (!Object.values(oauth).every(v => v)) {
+    throw new Error(
+      'Unable to find full set of OAuth credentials in environment variables, cannot continue.'
+    )
+  }
+
   const sourceRepo = new WikibaseRepo(source)
-  const targetRepo = new WikibaseRepo(target, {
-    oauth: {
-      consumer_key: process.env.TARGET_WIKI_OAUTH_CONSUMER_TOKEN,
-      consumer_secret: process.env.TARGET_WIKI_OAUTH_CONSUMER_SECRET,
-      token: process.env.TARGET_WIKI_OAUTH_ACCESS_TOKEN,
-      token_secret: process.env.TARGET_WIKI_OAUTH_ACCESS_SECRET
-    }
-  })
+  const targetRepo = new WikibaseRepo(target, { oauth })
 
   const contentLanguages = await targetRepo.getContentLanguages()
 
@@ -24,14 +36,15 @@ import { execCmd } from './../lib/exec.js'
     .map(e => pickLanguages(e, ...contentLanguages))
 
   await targetRepo.createEntities(...data)
+
   return `Sucessfully transferred ${entities.length} entities from ${source} to ${target}.`
 })()
   .then((result) => {
-    if (result) {
-      console.log(result)
-    }
+    console.log(result)
+    process.exitCode = 0
   })
   .catch((err) => {
+    console.error('An error occurred executing the command:')
     console.error(err)
     process.exitCode = 1
   })
