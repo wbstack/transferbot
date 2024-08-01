@@ -4,7 +4,8 @@
   "description": "A Docker image providing a command that transfers entities from a source to a target wiki.",
   "main": "index.js",
   "scripts": {
-    "test": "./test/test.js"
+    "test": "./test/test.js",
+    "fmt": "standard --fix"
   },
   "author": "Wikibase Cloud Team <wikibase-cloud@wikimedia.de>",
   "license": "BSD-3-Clause",
@@ -15,5 +16,8 @@
   "type": "module",
   "bin": {
     "transferbot": "./bin/cmd.js"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
   }
 }

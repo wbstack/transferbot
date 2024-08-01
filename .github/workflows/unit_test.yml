@@ -16,4 +16,6 @@ jobs:
         with:
           node-version: 20
       - name: Run unit tests
-        run: npm t
+        run: |
+          npm ci
+          npm t
