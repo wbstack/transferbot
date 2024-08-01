@@ -2,6 +2,7 @@
 
 import WikibaseRepo from './../lib/repo.js'
 import { pickLanguages, pickKeys } from './../lib/util.js'
+import { execCmd } from './../lib/exec.js'
 
 ;(async () => {
   const [source, target, ...entities] = process.argv.slice(2)
@@ -32,5 +33,17 @@ import { pickLanguages, pickKeys } from './../lib/util.js'
   })
   .catch((err) => {
     console.error(err)
-    process.exit(1)
+    process.exitCode = 1
+  })
+  .then(() => {
+    if (process.env.CALLBACK_ON_SUCCESS && process.exitCode === 0) {
+      return execCmd(process.env.CALLBACK_ON_SUCCESS)
+    }
+    if (process.env.CALLBACK_ON_FAILURE && process.exitCode !== 0) {
+      return execCmd(process.env.CALLBACK_ON_FAILURE)
+    }
+  })
+  .catch((err) => {
+    console.error('An error occurred executing the given callbacks:')
+    console.error(err)
   })
