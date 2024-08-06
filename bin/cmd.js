@@ -3,8 +3,9 @@
 import WikibaseRepo from './../lib/repo.js'
 import { pickLanguages, pickKeys } from './../lib/util.js'
 import { execCmd } from './../lib/exec.js'
+import { listen } from './../lib/signals.js'
 
-;(async () => {
+Promise.race([listen('SIGINT', 'SIGTERM', 'SIGQUIT'), (async () => {
   const args = process.argv.slice(2)
   if (args.length < 3) {
     throw new Error(
@@ -37,10 +38,9 @@ import { execCmd } from './../lib/exec.js'
 
   await targetRepo.createEntities(...data)
 
-  return `Sucessfully transferred ${entities.length} entities from ${source} to ${target}.`
-})()
+  console.log(`Sucessfully transferred ${entities.length} entities from ${source} to ${target}.`)
+})()])
   .then((result) => {
-    console.log(result)
     process.exitCode = 0
   })
   .catch((err) => {
