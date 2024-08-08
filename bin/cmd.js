@@ -5,6 +5,8 @@ import { pickLanguages, pickKeys } from './../lib/util.js'
 import { execCmd } from './../lib/exec.js'
 import { trap } from './../lib/signals.js'
 
+const abortController = new AbortController()
+
 Promise.race([
   (async () => {
     const args = process.argv.slice(2)
@@ -27,8 +29,8 @@ Promise.race([
       )
     }
 
-    const sourceRepo = new WikibaseRepo(source)
-    const targetRepo = new WikibaseRepo(target, { oauth })
+    const sourceRepo = new WikibaseRepo(source, { abortController })
+    const targetRepo = new WikibaseRepo(target, { oauth, abortController })
 
     const contentLanguages = await targetRepo.getContentLanguages()
 
@@ -55,6 +57,7 @@ Promise.race([
     console.error('An error occurred executing the command:')
     console.error(err)
     process.exitCode = 1
+    abortController.abort()
   })
   .then(() => {
     if (process.env.CALLBACK_ON_SUCCESS && process.exitCode === 0) {
