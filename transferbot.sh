@@ -56,4 +56,4 @@ read_entities() {
 
 read_entities $@ |\
   mangle_data -t "$target_wiki_origin" -p type -p labels -p descriptions -p aliases -p datatype |\
-  wb create-entity --batch --instance "$target_wiki_origin"
+  wb create-entity --no-exit-on-error --batch --instance "$target_wiki_origin"
